@@ -1,562 +1,249 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MULTI CANCHA - Complejo Deportivo</title>
-
-    <!-- Google Fonts: Outfit & Caveat -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome 6 Icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MULTI CANCHA | Complejo Deportivo</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Stylesheet -->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0f14">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
-
-    <!-- jQuery 3.7.1 -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
+<body class="modo-oscuro">
 
-<body class="theme-futbol">
-
-    <!-- CAPAS DE FONDO DINÁMICO -->
-    <div class="bg-layer bg-futbol active"></div>
-    <div class="bg-layer bg-basquet"></div>
-    <div class="bg-layer bg-voley"></div>
-    <div class="bg-layer bg-snacks"></div>
-    <div class="bg-overlay"></div>
-    <div class="ambient-glow"></div>
-
-    <!-- BARRA SUPERIOR: RESERVA ACTIVA -->
-    <div id="reservaActiva" class="reserva-activa">
-        <div class="reserva-info">
-            <span class="pulse-indicator"></span>
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <span>Reserva Activa: <strong id="equipoReservado">Cancha #1</strong> (<span id="usuarioReservado">@Jugador</span>)</span>
-        </div>
-        <div class="reserva-timer-box">
-            <span>Tiempo restante:</span>
-            <strong id="tiempoReserva">01:00:00</strong>
-            <button id="btnFinalizarReserva" class="btn-cancel-reserva" title="Liberar cancha">Liberar</button>
-        </div>
-    </div>
-
-    <!-- HEADER PRINCIPAL -->
-    <header class="main-header">
-        <div class="header-left">
-            <a href="#" class="brand-logo">
-                <div class="logo-icon-wrap">
-                    <i class="fa-solid fa-futbol logo-icon"></i>
-                </div>
-                <div class="brand-text">
-                    <span class="brand-title">MULTI CANCHA</span>
-                    <span class="brand-sub">COMPLEJO DEPORTIVO</span>
-                </div>
-            </a>
-        </div>
-
-        <nav class="header-nav">
-            <a href="#inicio" class="nav-item active"><i class="fa-solid fa-house"></i> Inicio</a>
-            <a href="#equipos" class="nav-item"><i class="fa-solid fa-table-tennis-paddle-ball"></i> Canchas</a>
-            <a href="#snacks" class="nav-item"><i class="fa-solid fa-burger"></i> Snacks</a>
-            <a href="#nosotros" class="nav-item"><i class="fa-solid fa-users"></i> Nosotros</a>
-        </nav>
-
-        <div class="header-right">
-            <div class="clock-widget">
-                <i class="fa-regular fa-clock clock-icon"></i>
-                <div class="clock-details">
-                    <span id="liveTime" class="clock-time">14:28</span>
-                    <span id="liveDate" class="clock-date">Jue, 5 Jun 2025</span>
-                </div>
+    <!-- MENÚ LATERAL IZQUIERDO -->
+    <aside id="sidebarMenu" class="sidebar-menu">
+        <div class="sidebar-header p-4 border-bottom border-secondary d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <div class="logo-shield"><i class="fas fa-shield-alt"></i></div>
+                <h4 class="logo-text m-0" style="font-family: 'Teko', sans-serif; font-size: 1.8rem;">MULTI<span class="text-neon">CANCHA</span></h4>
             </div>
+            <button id="btnCerrarMenu" class="btn btn-outline-light rounded-0 btn-sm"><i class="fas fa-times"></i></button>
+        </div>
 
-            <div class="user-badge">
-                <div class="user-avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="user-info">
-                    <span class="user-greeting">Bienvenido</span>
-                    <span class="user-status">¡A jugar!</span>
-                </div>
+        <div class="p-4">
+            <small class="text-muted fw-bold d-block mb-2">NAVEGACIÓN</small>
+            <ul class="nav flex-column gap-2 mb-4">
+                <li class="nav-item"><a href="#" class="nav-link-sidebar active" onclick="cambiarSeccion('inicio', this)"><i class="fas fa-home"></i> Inicio</a></li>
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="cambiarSeccion('canchas', this)"><i class="fas fa-futbol"></i> Reservar Cancha</a></li>
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="cambiarSeccion('calendario', this)"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="cambiarSeccion('mis-reservas', this)"><i class="fas fa-ticket-alt"></i> Mi Reserva</a></li>
+            </ul>
+
+            <small class="text-muted fw-bold d-block mb-2">DISCIPLINAS</small>
+            <ul class="nav flex-column gap-2 mb-4">
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="verDeporte('futbol')"><i class="fas fa-futbol"></i> Fútbol</a></li>
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="verDeporte('futsal')"><i class="fas fa-futbol"></i> Futsal</a></li>
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="verDeporte('padel')"><i class="fas fa-table-tennis-paddle-ball"></i> Pádel</a></li>
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="verDeporte('basquet')"><i class="fas fa-basketball-ball"></i> Básquet</a></li>
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="verDeporte('tenis')"><i class="fas fa-baseball-ball"></i> Tenis</a></li>
+                <li class="nav-item"><a href="#" class="nav-link-sidebar" onclick="verDeporte('voley')"><i class="fas fa-volleyball-ball"></i> Vóley</a></li>
+            </ul>
+            
+            <div class="mt-4 text-center">
+                <button id="btnHidratar" class="btn btn-outline-success w-100 rounded-0 btn-tactil">
+                    <i class="fas fa-sync-alt me-2"></i> <span id="txtHidratacion">Sincronizar App</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+    <div id="overlay" class="overlay"></div>
+
+    <!-- PANEL DE DETALLE DEL DEPORTE -->
+    <aside id="panelDeporte" class="panel-deporte">
+        <div class="p-4">
+            <button id="btnCerrarDeporte" class="btn btn-outline-light rounded-0 btn-sm mb-4"><i class="fas fa-arrow-left"></i> Volver</button>
+            <div id="deporteIcono" class="mb-3 text-center text-neon" style="font-size: 4rem;"></div>
+            <h2 id="deporteTitulo" class="fw-bold border-bottom border-secondary pb-2 mb-3" style="font-family: 'Teko', sans-serif; font-size: 2.5rem;"></h2>
+            <p id="deporteDesc" class="fs-6 mb-4"></p>
+            <button onclick="filtrarYCambiarSeccion()" class="btn btn-neon w-100 rounded-0 py-3 fw-bold">Ver Canchas de este Deporte</button>
+        </div>
+    </aside>
+
+    <!-- HEADER -->
+    <header class="stadium-header">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <button id="btnAbrirMenu" class="btn btn-success rounded-0 btn-tactil"><i class="fas fa-bars"></i></button>
+                <button onclick="cambiarSeccion('inicio')" class="btn btn-outline-success rounded-0 btn-tactil" title="Volver al inicio"><i class="fas fa-home"></i></button>
+                <h1 class="logo-text m-0 d-none d-md-block" style="font-family: 'Teko', sans-serif; font-size: 1.8rem;">MULTI<span class="text-neon">CANCHA</span></h1>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+                <span id="estadoRed" class="badge bg-success border border-success px-3 py-2 rounded-0">EN LÍNEA</span>
+                <button id="themeBtn" class="btn btn-outline-light rounded-0 btn-tactil"><i class="fas fa-sun"></i></button>
             </div>
         </div>
     </header>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <main class="main-content" id="inicio">
-
-        <!-- CARRUSEL HERO -->
-        <section class="hero-section">
-            <div class="carousel-container">
-                <button class="carousel-btn prev-btn" id="prevSlide" aria-label="Slide anterior">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-
-                <div class="carousel-track-wrapper">
-                    <div class="carousel-track" id="carouselTrack">
-                        <!-- SLIDE 1: GRILLA MULTIDEPORTE -->
-                        <div class="carousel-slide active">
-                            <div class="banner-gaming-grid">
-                                <div class="banner-item item-futbol">
-                                    <div class="banner-fortnite-content">
-                                        <h2 class="game-logo-fortnite">FÚTBOL</h2>
-                                        <p class="game-tag-sub">JUEGA · COMPITE · GANA</p>
-                                    </div>
-                                </div>
-                                <div class="banner-item item-center-hub">
-                                    <div class="cyberzone-hero-brand">
-                                        <i class="fa-solid fa-futbol center-gamepad"></i>
-                                        <h1 class="center-title">MULTI CANCHA</h1>
-                                        <span class="center-sub">COMPLEJO DEPORTIVO</span>
-                                        <p class="center-slogan">TU MUNDO DEPORTIVO<br>EN UN SOLO LUGAR</p>
-                                    </div>
-                                </div>
-                                <div class="banner-item item-basquet">
-                                    <div class="badge-overlay">
-                                        <span class="game-badge-text basquet-title">BÁSQUET</span>
-                                    </div>
-                                </div>
-                                <div class="banner-item item-voley">
-                                    <div class="badge-overlay">
-                                        <span class="game-badge-text voley-title">VÓLEY</span>
-                                    </div>
-                                </div>
-                                <div class="banner-item item-tenis">
-                                    <div class="badge-overlay">
-                                        <span class="game-badge-text tenis-title">TENIS</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SLIDE 2: TORNEOS -->
-                        <div class="carousel-slide">
-                            <div class="banner-single-hero banner-tournaments">
-                                <div class="hero-overlay-content">
-                                    <span class="hero-pill-tag"><i class="fa-solid fa-trophy"></i> Torneo Multi Cancha 2025</span>
-                                    <h2>CAMPEONATO DE FÚTBOL & BÁSQUET</h2>
-                                    <p>Compite por más de Bs. 5,000 en premios en efectivo cada fin de semana.</p>
-                                    <a href="#equipos" class="hero-cta-btn"><i class="fa-solid fa-bolt"></i> Reservar Entrenamiento</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SLIDE 3: CANCHAS PREMIUM -->
-                        <div class="carousel-slide">
-                            <div class="banner-single-hero banner-consoles">
-                                <div class="hero-overlay-content">
-                                    <span class="hero-pill-tag"><i class="fa-solid fa-crown"></i> Zona VIP Exclusiva</span>
-                                    <h2>CANCHAS PREMIUM CON ILUMINACIÓN LED</h2>
-                                    <p>Césped sintético de última generación, graderías y vestuarios profesionales.</p>
-                                    <a href="#equipos" class="hero-cta-btn"><i class="fa-solid fa-futbol"></i> Ver Canchas</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SLIDE 4: SNACKS -->
-                        <div class="carousel-slide">
-                            <div class="banner-single-hero banner-lounge">
-                                <div class="hero-overlay-content">
-                                    <span class="hero-pill-tag"><i class="fa-solid fa-utensils"></i> Zona de Descanso</span>
-                                    <h2>SNACKS, BEBIDAS & COMBOS DEPORTIVOS</h2>
-                                    <p>Disfruta de las mejores hamburguesas, papas rústicas y bebidas energizantes en tu cancha.</p>
-                                    <a href="#snacks" class="hero-cta-btn"><i class="fa-solid fa-burger"></i> Explorar Menú</a>
-                                </div>
-                            </div>
-                        </div>
+    <main class="main-content pt-5 mt-5 pb-5">
+        
+        <!-- VISTA 1: INICIO -->
+        <section id="sec-inicio" class="app-seccion activa">
+            <div class="hero-stadium p-5 mb-5">
+                <h1 class="display-3 fw-bold text-white m-0" style="font-family: 'Teko', sans-serif; line-height: 0.9;">JUEGA EN LA MEJOR<br><span class="text-neon">CANCHA DE LA PAZ</span></h1>
+                <p class="text-light mt-3 fs-5 max-w-600">Fútbol, Futsal, Pádel y más. Reserva fácil, juega rápido. Tu próximo partido comienza aquí.</p>
+                <div class="mt-4">
+                    <button onclick="filtrarCanchas('todos')" class="btn btn-neon btn-lg rounded-0 px-5 fw-bold btn-tactil">VER TODAS LAS CANCHAS</button>
+                </div>
+            </div>
+            
+            <h3 class="section-title mb-4 text-center">NUESTRAS DISCIPLINAS</h3>
+            <div class="row g-4 mb-5 justify-content-center">
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="sport-box p-3 text-center" onclick="verDeporte('futbol')">
+                        <i class="fas fa-futbol fs-2 text-neon mb-2"></i>
+                        <h5 class="fw-bold m-0" style="font-family: 'Teko', sans-serif;">FÚTBOL</h5>
                     </div>
                 </div>
-
-                <button class="carousel-btn next-btn" id="nextSlide" aria-label="Slide siguiente">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-
-                <div class="carousel-indicators" id="carouselIndicators">
-                    <span class="dot active" data-index="0"></span>
-                    <span class="dot" data-index="1"></span>
-                    <span class="dot" data-index="2"></span>
-                    <span class="dot" data-index="3"></span>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="sport-box p-3 text-center" onclick="verDeporte('futsal')">
+                        <i class="fas fa-futbol fs-2 text-neon mb-2"></i>
+                        <h5 class="fw-bold m-0" style="font-family: 'Teko', sans-serif;">FUTSAL</h5>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="sport-box p-3 text-center" onclick="verDeporte('padel')">
+                        <i class="fas fa-table-tennis-paddle-ball fs-2 text-neon mb-2"></i>
+                        <h5 class="fw-bold m-0" style="font-family: 'Teko', sans-serif;">PÁDEL</h5>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="sport-box p-3 text-center" onclick="verDeporte('basquet')">
+                        <i class="fas fa-basketball-ball fs-2 text-neon mb-2"></i>
+                        <h5 class="fw-bold m-0" style="font-family: 'Teko', sans-serif;">BÁSQUET</h5>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="sport-box p-3 text-center" onclick="verDeporte('tenis')">
+                        <i class="fas fa-baseball-ball fs-2 text-neon mb-2"></i>
+                        <h5 class="fw-bold m-0" style="font-family: 'Teko', sans-serif;">TENIS</h5>
+                    </div>
                 </div>
             </div>
 
-            <div class="sub-hero-bar">
-                <div class="center-tagline">
-                    <span>JUEGA</span>
-                    <span class="bullet">•</span>
-                    <span>COMPITE</span>
-                    <span class="bullet">•</span>
-                    <span>DISFRUTA</span>
-                </div>
-                <div class="handwritten-accent">
-                    Buenos deportes<br>Buenas personas
-                </div>
+            <!-- BOTONES IR A RESERVAR -->
+            <h3 class="section-title mb-4 text-center">IR A RESERVAR</h3>
+            <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center">
+                <button class="btn btn-outline-neon rounded-0 btn-tactil" onclick="filtrarCanchas('futbol')"><i class="fas fa-futbol me-2"></i> Fútbol</button>
+                <button class="btn btn-outline-neon rounded-0 btn-tactil" onclick="filtrarCanchas('futsal')"><i class="fas fa-futbol me-2"></i> Futsal</button>
+                <button class="btn btn-outline-neon rounded-0 btn-tactil" onclick="filtrarCanchas('padel')"><i class="fas fa-table-tennis-paddle-ball me-2"></i> Pádel</button>
+                <button class="btn btn-outline-neon rounded-0 btn-tactil" onclick="filtrarCanchas('basquet')"><i class="fas fa-basketball-ball me-2"></i> Básquet</button>
+                <button class="btn btn-outline-neon rounded-0 btn-tactil" onclick="filtrarCanchas('tenis')"><i class="fas fa-baseball-ball me-2"></i> Tenis</button>
+                <button class="btn btn-outline-neon rounded-0 btn-tactil" onclick="filtrarCanchas('voley')"><i class="fas fa-volleyball-ball me-2"></i> Vóley</button>
+                <button class="btn btn-neon rounded-0 btn-tactil" onclick="filtrarCanchas('todos')"><i class="fas fa-list me-2"></i> Todas</button>
             </div>
         </section>
 
-        <!-- BOTONES DE CATEGORÍA -->
-        <section class="category-selectors-section" id="equipos">
-            <div class="category-nav-grid">
-                <button class="cat-btn cat-pc active" data-category="futbol">
-                    <div class="cat-btn-content">
-                        <i class="fa-solid fa-futbol cat-icon"></i>
-                        <span class="cat-name">Fútbol</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-down cat-arrow"></i>
-                </button>
-
-                <button class="cat-btn cat-ps5" data-category="basquet">
-                    <div class="cat-btn-content">
-                        <i class="fa-solid fa-basketball-ball cat-icon"></i>
-                        <span class="cat-name">Básquet</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-down cat-arrow"></i>
-                </button>
-
-                <button class="cat-btn cat-xbox" data-category="voley">
-                    <div class="cat-btn-content">
-                        <i class="fa-solid fa-volleyball-ball cat-icon"></i>
-                        <span class="cat-name">Vóley</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-down cat-arrow"></i>
-                </button>
-
-                <button class="cat-btn cat-snacks" data-category="snacks">
-                    <div class="cat-btn-content">
-                        <i class="fa-solid fa-burger cat-icon"></i>
-                        <span class="cat-name">Snacks y Bebidas</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-down cat-arrow"></i>
-                </button>
-            </div>
+        <!-- VISTA 2: CANCHAS -->
+        <section id="sec-canchas" class="app-seccion">
+            <h2 class="section-title mb-4">CATÁLOGO DE CANCHAS</h2>
+            <!-- Contenedor con la clase ROW para que Bootstrap organice las tarjetas -->
+            <div class="row g-4" id="contenedorCanchas"></div>
         </section>
 
-        <!-- PANELES DE CONTENIDO -->
-        <section class="panels-container">
-            <!-- PANEL FÚTBOL -->
-            <div class="category-panel active" id="panel-futbol">
-                <div class="panel-header">
-                    <div class="panel-header-left">
-                        <div class="panel-icon-badge"><i class="fa-solid fa-futbol"></i></div>
-                        <div class="panel-header-text">
-                            <h3 class="panel-title">Canchas de Fútbol</h3>
-                            <p class="panel-meta">3 canchas disponibles · Bs. 80 / hora</p>
+        <!-- VISTA 3: CALENDARIO -->
+        <section id="sec-calendario" class="app-seccion">
+            <h2 class="section-title mb-4">CALENDARIO DE EVENTOS</h2>
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="calendar-wrapper p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="fw-bold m-0" style="font-family: 'Teko', sans-serif;">NOVIEMBRE 2026</h4>
                         </div>
-                    </div>
-                    <button class="panel-toggle-btn" aria-label="Contraer/Expandir panel">
-                        <i class="fa-solid fa-chevron-up toggle-chevron"></i>
-                    </button>
-                </div>
-
-                <div class="cards-grid">
-                    <div class="equipment-card" data-station="Cancha #1">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=500&q=80" alt="Cancha #1 Fútbol">
-                            <span class="badge-spec">Césped Sintético · 5v5</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">Cancha #1</h4>
-                            <div class="card-status status-available"><span class="status-dot"></span><span>Disponible</span></div>
-                            <button class="btn-reservar" data-equipo="Cancha #1" data-tipo="Fútbol" data-tarifa="80">Reservar</button>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card" data-station="Cancha #2">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=500&q=80" alt="Cancha #2 Fútbol">
-                            <span class="badge-spec">Césped Sintético · 7v7</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">Cancha #2</h4>
-                            <div class="card-status status-available"><span class="status-dot"></span><span>Disponible</span></div>
-                            <button class="btn-reservar" data-equipo="Cancha #2" data-tipo="Fútbol" data-tarifa="80">Reservar</button>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card" data-station="Cancha #3">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=500&q=80" alt="Cancha #3 Fútbol">
-                            <span class="badge-spec">Iluminación LED · 11v11</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">Cancha #3</h4>
-                            <div class="card-status status-occupied"><span class="status-dot"></span><span>Ocupado</span></div>
-                            <button class="btn-reservar btn-disabled" disabled>En Uso</button>
+                        <div class="calendar-grid-header mb-2"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div>
+                        <div class="calendar-grid">
+                            <div class="cal-box text-muted opacity-25">30</div><div class="cal-box text-muted opacity-25">31</div>
+                            <div class="cal-box">1</div><div class="cal-box">2</div><div class="cal-box">3</div><div class="cal-box">4</div><div class="cal-box">5</div>
+                            <div class="cal-box">6</div><div class="cal-box">7</div><div class="cal-box">8</div><div class="cal-box">9</div><div class="cal-box">10</div><div class="cal-box">11</div><div class="cal-box">12</div>
+                            <div class="cal-box">13</div><div class="cal-box">14</div><div class="cal-box event-day">15 <span class="event-dot"></span></div><div class="cal-box">16</div><div class="cal-box">17</div><div class="cal-box">18</div><div class="cal-box">19</div>
+                            <div class="cal-box discount-day">20 <span class="discount-dot"></span></div><div class="cal-box">21</div><div class="cal-box">22</div><div class="cal-box">23</div><div class="cal-box">24</div><div class="cal-box">25</div><div class="cal-box">26</div>
+                            <div class="cal-box">27</div><div class="cal-box">28</div><div class="cal-box">29</div><div class="cal-box">30</div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- PANEL BÁSQUET -->
-            <div class="category-panel" id="panel-basquet">
-                <div class="panel-header">
-                    <div class="panel-header-left">
-                        <div class="panel-icon-badge"><i class="fa-solid fa-basketball-ball"></i></div>
-                        <div class="panel-header-text">
-                            <h3 class="panel-title">Canchas de Básquet</h3>
-                            <p class="panel-meta">2 canchas disponibles · Bs. 60 / hora</p>
-                        </div>
-                    </div>
-                    <button class="panel-toggle-btn" aria-label="Contraer/Expandir panel">
-                        <i class="fa-solid fa-chevron-up toggle-chevron"></i>
-                    </button>
-                </div>
-
-                <div class="cards-grid">
-                    <div class="equipment-card" data-station="Cancha Básquet #1">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=500&q=80" alt="Básquet #1">
-                            <span class="badge-spec">Piso Profesional · 3x3</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">Cancha #1</h4>
-                            <div class="card-status status-available"><span class="status-dot"></span><span>Disponible</span></div>
-                            <button class="btn-reservar" data-equipo="Cancha Básquet #1" data-tipo="Básquet" data-tarifa="60">Reservar</button>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card" data-station="Cancha Básquet #2">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=500&q=80" alt="Básquet #2">
-                            <span class="badge-spec">Techada · 5v5</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">Cancha #2</h4>
-                            <div class="card-status status-available"><span class="status-dot"></span><span>Disponible</span></div>
-                            <button class="btn-reservar" data-equipo="Cancha Básquet #2" data-tipo="Básquet" data-tarifa="60">Reservar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PANEL VÓLEY -->
-            <div class="category-panel" id="panel-voley">
-                <div class="panel-header">
-                    <div class="panel-header-left">
-                        <div class="panel-icon-badge"><i class="fa-solid fa-volleyball-ball"></i></div>
-                        <div class="panel-header-text">
-                            <h3 class="panel-title">Canchas de Vóley</h3>
-                            <p class="panel-meta">2 canchas disponibles · Bs. 50 / hora</p>
-                        </div>
-                    </div>
-                    <button class="panel-toggle-btn" aria-label="Contraer/Expandir panel">
-                        <i class="fa-solid fa-chevron-up toggle-chevron"></i>
-                    </button>
-                </div>
-
-                <div class="cards-grid">
-                    <div class="equipment-card" data-station="Cancha Vóley #1">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=500&q=80" alt="Vóley #1">
-                            <span class="badge-spec">Arena Sintética · Playa</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">Cancha #1</h4>
-                            <div class="card-status status-available"><span class="status-dot"></span><span>Disponible</span></div>
-                            <button class="btn-reservar" data-equipo="Cancha Vóley #1" data-tipo="Vóley" data-tarifa="50">Reservar</button>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card" data-station="Cancha Vóley #2">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=500&q=80" alt="Vóley #2">
-                            <span class="badge-spec">Red Reglamentaria · Indoor</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">Cancha #2</h4>
-                            <div class="card-status status-occupied"><span class="status-dot"></span><span>Ocupado</span></div>
-                            <button class="btn-reservar btn-disabled" disabled>En Uso</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PANEL SNACKS -->
-            <div class="category-panel" id="panel-snacks">
-                <div class="panel-header">
-                    <div class="panel-header-left">
-                        <div class="panel-icon-badge"><i class="fa-solid fa-burger"></i></div>
-                        <div class="panel-header-text">
-                            <h3 class="panel-title">Snacks & Bebidas</h3>
-                            <p class="panel-meta">Servicio directo a tu cancha</p>
-                        </div>
-                    </div>
-                    <button class="panel-toggle-btn" aria-label="Contraer/Expandir panel">
-                        <i class="fa-solid fa-chevron-up toggle-chevron"></i>
-                    </button>
-                </div>
-
-                <div class="cards-grid">
-                    <div class="equipment-card snack-card">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=500&q=80" alt="Papas Fritas">
-                            <span class="badge-spec">Crujientes</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">🍟 Papas Fritas Supreme</h4>
-                            <div class="snack-price">Bs. 12</div>
-                            <button class="btn-reservar btn-snack" data-item="Papas Fritas Supreme" data-precio="12"><i class="fa-solid fa-cart-plus"></i> Pedir</button>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card snack-card">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80" alt="Hamburguesa">
-                            <span class="badge-spec">Doble Carne</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">🍔 Hamburguesa Multi</h4>
-                            <div class="snack-price">Bs. 20</div>
-                            <button class="btn-reservar btn-snack" data-item="Hamburguesa Multi" data-precio="20"><i class="fa-solid fa-cart-plus"></i> Pedir</button>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card snack-card">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=500&q=80" alt="Bebida Energizante">
-                            <span class="badge-spec">Bien Fría</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">⚡ Bebida Energizante</h4>
-                            <div class="snack-price">Bs. 15</div>
-                            <button class="btn-reservar btn-snack" data-item="Bebida Energizante" data-precio="15"><i class="fa-solid fa-cart-plus"></i> Pedir</button>
-                        </div>
-                    </div>
-
-                    <div class="equipment-card snack-card">
-                        <div class="card-media">
-                            <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80" alt="Agua Mineral">
-                            <span class="badge-spec">500ml</span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-name">💧 Agua Mineral</h4>
-                            <div class="snack-price">Bs. 8</div>
-                            <button class="btn-reservar btn-snack" data-item="Agua Mineral" data-precio="8"><i class="fa-solid fa-cart-plus"></i> Pedir</button>
-                        </div>
+                <div class="col-lg-4">
+                    <div class="stadium-card p-4 h-100">
+                        <h5 class="fw-bold border-bottom border-secondary pb-2 mb-3">PRÓXIMOS EVENTOS</h5>
+                        <div class="mb-3"><span class="badge bg-neon rounded-0 mb-1">15 NOV</span><h6 class="fw-bold m-0">Copa MultiCancha</h6></div>
+                        <div class="mb-3"><span class="badge bg-warning text-dark rounded-0 mb-1">20 NOV</span><h6 class="fw-bold m-0">Descuento 2x1 Pádel</h6></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PASOS -->
-        <section class="how-it-works-section" id="nosotros">
-            <div class="how-it-works-card">
-                <h3 class="how-title">¿Cómo funciona?</h3>
-                <div class="steps-container">
-                    <div class="step-item step-1 active">
-                        <div class="step-circle">1</div>
-                        <span class="step-text">Selecciona una cancha</span>
-                    </div>
-                    <div class="step-divider"></div>
-                    <div class="step-item step-2">
-                        <div class="step-circle">2</div>
-                        <span class="step-text">Completa tus datos</span>
-                    </div>
-                    <div class="step-divider"></div>
-                    <div class="step-item step-3">
-                        <div class="step-circle">3</div>
-                        <span class="step-text">Confirma tu pago</span>
-                    </div>
-                    <div class="step-divider"></div>
-                    <div class="step-item step-4">
-                        <div class="step-circle">4</div>
-                        <span class="step-text">Disfruta tu tiempo</span>
-                    </div>
+        <!-- VISTA 4: MI RESERVA -->
+        <section id="sec-mis-reservas" class="app-seccion">
+            <h2 class="section-title mb-4">MI RESERVA</h2>
+            <div id="vacioReserva" class="text-center py-5 stadium-card">
+                <i class="fas fa-ticket-alt fs-1 text-muted mb-3"></i>
+                <h4 class="fw-bold">No tienes reservas activas</h4>
+            </div>
+            <div id="detalleReserva" class="stadium-card" style="display: none;">
+                <img id="reservaFoto" src="" class="w-100" style="height: 300px; object-fit: cover;">
+                <div class="p-4 bg-dark">
+                    <h2 id="reservaNombre" class="text-neon fw-bold" style="font-family: 'Teko', sans-serif;"></h2>
+                    <p class="mb-1">Cliente: <span id="reservaCliente"></span></p>
+                    <p class="mb-3">Fecha: <span id="reservaFecha"></span></p>
+                    <h3 id="reservaTimer" class="text-warning font-monospace mb-4"></h3>
+                    <button id="btnCancelarReserva" class="btn btn-outline-danger rounded-0 w-100">CANCELAR RESERVA</button>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- FOOTER -->
-    <footer class="main-footer">
-        <div class="footer-left">
-            <i class="fa-solid fa-location-dot footer-icon"></i>
-            <span>Multi Cancha - Complejo Deportivo</span>
-            <span class="footer-sep">|</span>
-            <span>La Paz, Bolivia</span>
-        </div>
-        <div class="footer-right">
-            <span>Más que una cancha, una experiencia</span>
-            <span class="footer-sep">|</span>
-            <span>© 2025</span>
-        </div>
-    </footer>
-
-    <!-- MODAL -->
-    <div id="modalOverlay" class="modal-backdrop">
-        <div class="modal-card">
-            <div class="modal-header">
-                <div class="modal-header-title">
-                    <i class="fa-regular fa-calendar-check modal-cal-icon"></i>
-                    <h2>Confirmar Reserva</h2>
+    <!-- MODAL DE RESERVA -->
+    <div class="modal fade" id="modalReserva" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 bg-dark rounded-0">
+                <div class="modal-header border-bottom border-secondary rounded-0">
+                    <h5 class="modal-title fw-bold" style="font-family: 'Teko', sans-serif;">CONFIRMAR RESERVA</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <button id="btnCerrarModal" class="btn-close-modal" aria-label="Cerrar modal"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <div class="modal-station-info">
-                <span>Cancha:</span>
-                <strong id="modalEquipoNombre">Cancha #1</strong>
-            </div>
-
-            <div class="modal-form">
-                <div class="input-field-wrap">
-                    <i class="fa-regular fa-user field-icon"></i>
-                    <input type="text" id="inputNombre" placeholder="Nombre completo" autocomplete="name">
-                </div>
-                <div class="input-field-wrap">
-                    <i class="fa-regular fa-id-card field-icon"></i>
-                    <input type="text" id="inputCI" placeholder="CI" autocomplete="off">
-                </div>
-                <div class="input-field-wrap">
-                    <i class="fa-solid fa-at field-icon"></i>
-                    <input type="text" id="inputUsuario" placeholder="Usuario" autocomplete="username">
-                </div>
-
-                <div class="hours-selector-block">
-                    <label class="hours-label">Horas de uso</label>
-                    <div class="hours-options-row">
-                        <button type="button" class="hour-btn active" data-hours="1">
-                            <span class="hour-qty">1 Hora</span>
-                            <span class="hour-price" id="hourPrice1">Bs. 80</span>
-                        </button>
-                        <button type="button" class="hour-btn" data-hours="2">
-                            <span class="hour-qty">2 Horas</span>
-                            <span class="hour-price" id="hourPrice2">Bs. 160</span>
-                        </button>
-                        <button type="button" class="hour-btn" data-hours="3">
-                            <span class="hour-qty">3 Horas</span>
-                            <span class="hour-price" id="hourPrice3">Bs. 240</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="modal-timer-banner">
-                    <div class="timer-banner-header">
-                        <i class="fa-regular fa-clock timer-clock-icon"></i>
-                        <span>Tiempo para confirmar el pago:</span>
-                    </div>
-                    <div class="timer-countdown" id="modalCountdown">29:58</div>
-                </div>
-
-                <div class="modal-actions-row">
-                    <button type="button" id="btnModalCancelar" class="btn-modal-cancel">Cancelar</button>
-                    <button type="button" id="btnModalConfirmar" class="btn-modal-confirm">Confirmar Pago</button>
+                <div class="modal-body">
+                    <img id="modalImgCancha" src="" class="w-100 mb-3" style="height: 180px; object-fit: cover;">
+                    <h4 id="modalNombreCancha" class="text-neon fw-bold mb-4" style="font-family: 'Teko', sans-serif;"></h4>
+                    <form id="formReserva" novalidate>
+                        <div class="mb-3">
+                            <label class="text-muted small fw-bold">NOMBRE</label>
+                            <input type="text" class="form-control bg-dark text-white border-secondary rounded-0" id="inputNombre" placeholder="Tu nombre" required>
+                            <small class="text-danger error-msg" id="errorNombre"></small>
+                        </div>
+                        <div class="row g-2 mb-4">
+                            <div class="col-6">
+                                <label class="text-muted small fw-bold">HORA</label>
+                                <select class="form-select bg-dark text-white border-secondary rounded-0" id="selectHora"><option value="18:00">18:00</option><option value="19:00">19:00</option><option value="20:00">20:00</option></select>
+                            </div>
+                            <div class="col-6">
+                                <label class="text-muted fw-bold">HORAS</label>
+                                <select class="form-select bg-dark text-white border-secondary rounded-0" id="selectHoras"><option value="1">1 Hora</option><option value="2">2 Horas</option></select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-neon w-100 rounded-0 py-3 fw-bold btn-tactil">PAGAR Y RESERVAR</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- TOAST -->
-    <div id="toastNotification" class="toast-box">
-        <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
-        <div class="toast-message" id="toastMessage">¡Acción realizada con éxito!</div>
+    <div id="toastBox" class="toast-custom shadow-lg">
+        <i id="toastIcon" class="fas fa-check-circle text-neon fs-4"></i>
+        <span id="toastMsg" class="text-white fw-bold ms-2">Reserva confirmada</span>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
