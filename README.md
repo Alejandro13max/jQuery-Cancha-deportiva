@@ -1,1 +1,1 @@
-# jQuery-Cancha-deportiva
+# Cancha-deportiva
